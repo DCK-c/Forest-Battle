@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+<title>森林进化论</title>
+<style>
+  select, button {
+    display: block;
+    margin: 10px 0;
+  }
+  .hidden {
+    display: none;
+  }
+  .roleSelector{
+      width:80%;
+      margin-right: 7%;
+      margin-left: 7%;
+      margin-bottom: 20px;
+      height:30px;
+  }
+  .hidden{
+      width: 80%;
+  }
+</style>
+</head>
+<body background="background.png">
+    <h1 style="text-align: center;color: white">森林进化论——请选择自己的身份</h1>
+    <div style="background: #d8d8d8;padding: 10px;margin-left: 3%;margin-right: 3%" id="form">
+          <form id="identityForm" style="width: 90%;margin-right: 5%;margin-left: 5%">
+            <div id="selections" >
+              <!-- Generate 10 dropdowns dynamically -->
+              <script>
+                const roles = [
+                    {role:"♠J",value:13},
+                    {role:"♠Q",value:23},
+                    {role:"♠K",value:33},
+                    {role:"♥J",value:12},
+                    {role:"♥Q",value:22},
+                    {role:"♥K",value:32},
+                    {role:"♣J",value:11},
+                    {role:"♣Q",value:21},
+                    {role:"♣K",value:31},
+                    {role:"JOKER",value:0}];
+                for (let i = 1; i <= 10; i++) {
+                  const selectHTML = `<select id="select${i}" onchange="confirmIdentity(${i})" class = "roleSelector">
+                    <option value="">玩家${i}请选择身份</option>
+                    ${roles.map(role => `<option value="${role.value}">${role.role}</option>`).join('')}
+                  </select>
+                  <div id="identity${i}" style="color: black;margin-left: 7%"></div>
+                  <div id="confirmedIdentity${i}" class="hidden"></div>`;
+                  document.write(selectHTML);
+                }
+              </script>
+            </div>
+          </form>
+    </div>
+    <div style="width: 80%;margin-right: 10%;margin-left: 10%">
+        <button type="button" onclick="submitIdentities()" style="width: 100%;height: 50px" disabled>确认身份，游戏开始</button>
+    </div>
+<script src="./main.js"></script>
+</body>
+</html>
