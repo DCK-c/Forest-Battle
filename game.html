@@ -8,65 +8,103 @@
   body, html {
     margin: 0;
     padding: 0;
-    height: 100%; /* 设置 body 和 html 的高度为100% */
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eaeaea;
   }
   body {
     display: flex;
-    flex-direction: row; /* 确保内容水平排列 */
-  }
-  #leftColumn{
-      width:30%
-  }
-  #rightColumn{
-      width:70%
+    flex-direction: row;
   }
   #leftColumn, #rightColumn {
     padding: 20px;
-    box-sizing: border-box; /* 包括padding在内的宽度计算 */
-    overflow-y: auto; /* 如果内容超出可视区域允许滚动 */
-    height: 100%; /* 设置每一列的高度为100% */
+    box-sizing: border-box;
+    overflow-y: auto;
+    height: 100%;
     position:relative;
   }
   #leftColumn {
-    background-color: #f8f8f8;
+    width: 30%;
+    background-color: #f0f0f0;
   }
   #rightColumn {
-    background-color: #e8e8e8;
+    width: 70%;
+    background-color: #ffffff;
+  }
+  h2, h1 {
+    color: #333;
+    padding-bottom: 5px;
   }
   button {
-    padding: 8px 16px;
-    margin: 5px;
-    width: calc(100% - 30px); /* 计算宽度，扣除边距 */
-    box-sizing: border-box; /* 包括padding和margin在内的宽度计算 */
+    padding: 10px 15px;
+    margin: 5px 0;
+    width: 100%;
+    border: none;
+    background-color: rgba(255, 191, 0, 0.89);
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
   }
-  .operation{
-      display: flex;
-      align-items: center;
-      justify-content: center
+  button:hover {
+    background-color: rgb(255, 221, 0);
   }
-  .info{
-      position: absolute;
-      bottom: 0;
+  select, input[type=number] {
+    width: 100%;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .operation p {
+    margin: 10px 0 5px;
+    color: #666;
+  }
+  .info {
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 40px);
+    font-size: 14px;
+    color: #444;
+  }
+  .operation {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  #timer-display {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+  .trade, .predation, .auction {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
   }
 </style>
 </head>
 <body>
     <div id="leftColumn">
-    <h2>玩家存活信息</h2>
-    <div id="healthList"></div>
-    <div class="info">
-        <h1 style="color: red">说明</h1>
-        <p>本系统仅用于辅助森林进化论游戏的进行，请按照森林进化论游戏的规则进行游戏</p>
-        <p>本系统不支持任何透支血量的操作</p>
-        <p>禁止利用本系统不完善的地方卡bug</p>
-        <p>在使用本系统过程中出现的一切问题请找该系统的设计者，与本系统开发者毫无关系</p>
+        <h2>玩家存活信息</h2>
+        <div id="healthList"></div>
+        <div class="info">
+            <h1 style="color: red">说明</h1>
+            <p>本系统仅用于辅助森林进化论游戏的进行，请按照森林进化论游戏的规则进行游戏</p>
+            <p>本系统不支持任何透支血量的操作</p>
+            <p>禁止利用本系统不完善的地方卡bug</p>
+            <p>在使用本系统过程中出现的一切问题请找该系统的设计者，与本系统开发者毫无关系</p>
+        </div>
     </div>
-  </div>
     <div id="rightColumn">
-    <h2>游戏操作面板</h2>
-    <h3 class="roundCount"></h3>
-    <button onclick="showTradeHealth()">血量交易</button>
-    <div class="trade" style="display: none;background:#d8d8d8">
+        <h2>游戏操作面板</h2>
+        <h3 class="roundCount"></h3>
+        <button onclick="showTradeHealth()" class="tradeButton">血量交易</button>
+        <div class="trade" style="display: none;">
         <div class = "operation">
             <p>卖家（被扣除血量）：</p>
             <select id="sell" style="height: 20px">
@@ -105,8 +143,8 @@
         <div class = "operation">
             <button onclick="doTrade()" style="width: 80%">完成交易</button>
         </div>
-    </div>
-    <button onclick="showPredation()">捕食</button>
+        </div>
+    <button onclick="showPredation()" class="predationButton">捕食</button>
       <div class = "predation" style="display: none;background: #d8d8d8">
           <div class = "operation">
               <p>捕食者：</p>
@@ -143,7 +181,7 @@
           </div>
       </div>
     <button onclick="startNextRound()" class = "start">结束这一轮并开始下一轮</button>
-    <button onclick="showAuction()" class = "auctionButton">拍卖环节</button>
+    <button onclick="showAuction()" class = "auctionButton" >拍卖环节</button>
       <div class = "auction" style="display: none;background: #d8d8d8">
           <div class = "operation">
               <p>购得者：</p>
@@ -169,11 +207,16 @@
               <button onclick="doAuction()" style="width: 80%">成交</button>
           </div>
       </div>
-    <button onclick="showResult()" class = "show">显示结果</button>
+    <button onclick="showResult()" class = "show">显示结果(仅可在最后一轮显示)</button>
     <button onclick="{window.location = './main.html'}">返回设置身份</button>
-    <h2 style="color: #0000ff">计时器</h2>
-  </div>
-
-    <script src = "./game.js"></script>
+    <h2 style="color: #0000ff">计时器（可以用来进行一些奇怪的事情）</h2>
+        <div>
+            <div id="timer-display" contenteditable="true">00:00:00</div>
+            <button onclick="startTimer()">开始计时</button>
+            <button onclick="pauseOrResumeTimer()">暂停/恢复计时</button>
+            <button onclick="resetTimer()">重置时间</button>
+        </div>
+    </div>
+    <script src="./game.js"></script>
 </body>
 </html>

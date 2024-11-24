@@ -5,34 +5,73 @@
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
 <title>森林进化论</title>
 <style>
+  body {
+    background-image: url('background.png');
+    font-family: 'Arial', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* Changed to space-around for better distribution */
+    height: 100vh; /* Sets the body height to viewport height */
+  }
+  h1 {
+    margin-top: 0;
+    padding-top: 20px;
+    font-size: 24px;
+  }
+  #form {
+    background: rgba(216, 216, 216, 0.9); /* More opacity for better readability */
+    padding: 10px;
+    width: 96%;
+    border-radius: 8px;
+    overflow: auto; /* Allows scrolling within the form if necessary */
+  }
   select, button {
+    width: 96%;
+    padding: 8px;
+    margin: 8px 2%;
+    border: none;
+    border-radius: 4px;
+  }
+  select {
+    background: white;
+    color: black;
+  }
+  button {
+    background: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #45a049;
+  }
+  .submit{
+      background: #cccccc;
+  }
+  .submit:hover {
+    background: #dddddd;
+  }
+  .roleSelector {
     display: block;
-    margin: 10px 0;
+    height: 35px;
   }
   .hidden {
     display: none;
   }
-  .roleSelector{
-      width:80%;
-      margin-right: 7%;
-      margin-left: 7%;
-      margin-bottom: 20px;
-      height:30px;
-  }
-  .hidden{
-      width: 80%;
-  }
 </style>
 </head>
-<body background="background.png">
-    <h1 style="text-align: center;color: white">森林进化论——请选择自己的身份</h1>
-    <div style="display: flex;
-    justify-content: center;
-    align-items: center;"><button style="text-align: center" onclick="randomIdentity()">随机生成身份</button></div>
-    <div style="background: #d8d8d8;padding: 10px;margin-left: 3%;margin-right: 3%" id="form">
-          <form id="identityForm" style="width: 90%;margin-right: 5%;margin-left: 5%">
-            <div id="selections" >
-              <!-- Generate 10 dropdowns dynamically -->
+<body>
+    <h1>森林进化论——请选择自己的身份</h1>
+    <button onclick="randomIdentity()">随机生成玩家身份以开始游戏</button> <!-- Ensured button is visible -->
+    <div id="form">
+        <form id="identityForm">
+            <div id="selections">
               <script>
                 const roles = [
                     {role:"♠J",value:13},
@@ -44,22 +83,23 @@
                     {role:"♣J",value:11},
                     {role:"♣Q",value:21},
                     {role:"♣K",value:31},
-                    {role:"JOKER",value:0}];
+                    {role:"JOKER",value:0}
+                ];
                 for (let i = 1; i <= 10; i++) {
-                  const selectHTML = `<select id="select${i}" onchange="confirmIdentity(${i})" class = "roleSelector">
+                  const selectHTML = `<select id="select${i}" onchange="confirmIdentity(${i})" class="roleSelector">
                     <option value="">玩家${i}请选择身份</option>
                     ${roles.map(role => `<option value="${role.value}">${role.role}</option>`).join('')}
                   </select>
-                  <div id="identity${i}" style="color: black;margin-left: 7%"></div>
+                  <div id="identity${i}" style="color: black; margin-left: 2%; margin-right: 2%"></div>
                   <div id="confirmedIdentity${i}" class="hidden"></div>`;
                   document.write(selectHTML);
                 }
               </script>
             </div>
-          </form>
+        </form>
     </div>
-    <div style="width: 80%;margin-right: 10%;margin-left: 10%">
-        <button type="button" onclick="submitIdentities()" style="width: 100%;height: 50px" disabled>确认身份，游戏开始</button>
+    <div style="width: 100%; padding: 20px 0;">
+        <button type="button" class="submit" onclick="submitIdentities()" disabled>确认身份，游戏开始</button>
     </div>
 <script src="./main.js"></script>
 </body>

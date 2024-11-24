@@ -42,6 +42,8 @@ function setRoundCount(value) {
 function showTradeHealth() {
   let element = document.querySelector(".trade")
   element.style.display = element.style.display==="none"?"block":"none";
+  document.querySelector(".predation").style.display = "none";
+  document.querySelector(".auction").style.display = "none";
 }
 function doTrade(){
     let sell = document.getElementById("sell").value;
@@ -61,6 +63,7 @@ function doTrade(){
           if(+healthsArray[sell - 1]===0) alert("玩家" + (sell) + "血量不足，已被淘汰");
           setCookie('healths', JSON.stringify(healthsArray), 7); // 存储7天
           updateHealthDisplay();
+          alert("交易成功");
         } else {
           alert("交易失败，卖家血量不足");
         }
@@ -79,6 +82,8 @@ function predationResult(predator,prey){
 function showPredation() {
   let element = document.querySelector(".predation")
   element.style.display = element.style.display==="none"?"block":"none";
+  document.querySelector(".trade").style.display = "none";
+  document.querySelector(".auction").style.display = "none";
 }
 function doPredation(){
     let predator = document.getElementById("predator").value;
@@ -117,7 +122,6 @@ function doPredation(){
           safe.push(predator - 1);
           safe.push(prey - 1);
           localStorage.setItem("safe", JSON.stringify(safe))
-          alert("操作完成")
       }
     }
     // 更新cookie
@@ -154,7 +158,9 @@ function startNextRound() {
 
 function showAuction(){
     let element = document.querySelector(".auction")
-  element.style.display = element.style.display==="none"?"block":"none";
+    element.style.display = element.style.display==="none"?"block":"none";
+    document.querySelector(".trade").style.display = "none";
+    document.querySelector(".predation").style.display = "none";
 }
 function doAuction(){
     let buyer = document.getElementById("buyer").value;
@@ -189,12 +195,76 @@ function showResult() {
     let identitiesArray = identities ? JSON.parse(decodeURIComponent(identities)) : [];
     const healthList = document.getElementById('healthList');
     healthList.innerHTML = ''; // 清空当前显示
+    document.querySelector(".tradeButton").disabled = true;
+    document.querySelector(".predationButton").disabled = true;
+    document.querySelector(".auctionButton").disabled = true;
     healthsArray.forEach((health, index) => {
         const playerDiv = document.createElement('div');
         playerDiv.textContent = `玩家${index + 1} 身份:${roles[identitiesArray[index]]};剩余血量:${health}`;
         healthList.appendChild(playerDiv);
     })
 }
+
+let timerInterval = null;
+let timeRemaining = 0;
+
+function displayTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secondsLeft = seconds % 60;
+    document.getElementById('timer-display').textContent =
+        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
+}
+
+function parseTimeInput() {
+    const timeInput = document.getElementById('timer-display').textContent.trim();
+    const parts = timeInput.split(':').map(part => parseInt(part) || 0);
+    if (parts.length === 3) {
+        return (parts[0] * 3600) + (parts[1] * 60) + parts[2];
+    }
+    return 0;
+}
+
+function startTimer() {
+    timeRemaining = parseTimeInput();
+    if (!timerInterval && timeRemaining > 0) {
+        document.getElementById('timer-display').contentEditable = "false"; // 禁止编辑
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+}
+
+function updateTimer() {
+    timeRemaining--;
+    displayTime(timeRemaining);
+    if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        document.getElementById('timer-display').contentEditable = "true"; // 允许重新编辑
+    }
+}
+
+function pauseOrResumeTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        document.getElementById('timer-display').contentEditable = "true"; // 恢复编辑
+    } else if (timeRemaining > 0) {
+        document.getElementById('timer-display').contentEditable = "false"; // 禁止编辑
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+}
+
+function resetTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    timeRemaining = 20*60;
+    displayTime(timeRemaining);
+    document.getElementById('timer-display').contentEditable = "true"; // 允许编辑
+}
+
+displayTime(20*60); // Initialize with zero
 
 
 
