@@ -53,8 +53,6 @@ function submitIdentities() {
     const confirmedIdentity = document.getElementById(`confirmedIdentity${i}`);
     identities.push(confirmedIdentity.innerText);
   }
-  const inOneYear = new Date();
-  inOneYear.setFullYear(inOneYear.getFullYear() + 1);
   localStorage.setItem("identities",encodeURIComponent(JSON.stringify(identities)))
   const healths = identities.map(() => 20);
   storeHealthsInCookie(healths);
@@ -64,4 +62,34 @@ function submitIdentities() {
   localStorage.setItem("protection",JSON.stringify([]));
   window.location = "./game.html"
 
+}
+
+function randomIdentity(){
+  let identities = [
+                    {role:"♠J",value:13},
+                    {role:"♠Q",value:23},
+                    {role:"♠K",value:33},
+                    {role:"♥J",value:12},
+                    {role:"♥Q",value:22},
+                    {role:"♥K",value:32},
+                    {role:"♣J",value:11},
+                    {role:"♣Q",value:21},
+                    {role:"♣K",value:31},
+                    {role:"JOKER",value:0}];
+  let identity;
+  let roles = []
+  for(let i=0;i<10;i++){
+    const index = Math.floor(Math.random() * identities.length);
+    identity = identities.splice(index, 1)[0];
+    roles.push(identity.value);
+    alert(`玩家${i+1} 身份：${identity["role"]}`);
+  }
+  localStorage.setItem("identities",encodeURIComponent(JSON.stringify(roles)))
+  const healths = roles.map(() => 20);
+  storeHealthsInCookie(healths);
+  alert("游戏开始！");
+  localStorage.setItem("roundCount",1);
+  localStorage.setItem("safe",JSON.stringify([]));
+  localStorage.setItem("protection",JSON.stringify([]));
+  window.location = "./game.html"
 }

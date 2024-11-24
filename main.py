@@ -24,8 +24,8 @@ def make_app():
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(80)
-    print("服务器启动在 http://localhost/")
+    app.listen(19719)
+    print("服务器启动在 http://localhost:19719/")
     tornado.ioloop.IOLoop.current().start()
 
 
