@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Popup Example</title>
+<style>
+    /* style.css */
+
+.popup-content {
+    position: absolute; /* 使用绝对定位 */
+    top: 15%; /* 距离顶部20% */
+    left: 40%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 200px;
+    height:100px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+    <div class="popup-content" style="display: none">
+        <span class="close">&times;</span>
+        111111
+    </div>
+
+<script>// script.js
+document.addEventListener('DOMContentLoaded', function () {
+    var popup = document.querySelector('.popup-content');
+    var close = document.getElementsByClassName('close')[0];
+    popup.style.display = "block";
+    close.onclick = function() {
+        popup.style.display = "none";
+    };
+});
+</script>
+</body>
+</html>

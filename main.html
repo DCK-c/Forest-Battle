@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
-<title>森林进化论</title>
+<title>森林之战</title>
 <style>
   body {
     background-image: url('background.png');
@@ -64,10 +64,31 @@
   .hidden {
     display: none;
   }
+  .popup-content {
+    position: absolute; /* 使用绝对定位 */
+    top: 15%; /* 距离顶部20% */
+    left: 40%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 200px;
+    height:100px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
-    <h1>森林进化论——请选择自己的身份</h1>
+    <div class="popup-content" style="display: none">
+        <span class="close">&times;</span>
+    </div>
+    <h1 id="title">森林之战——请选择自己的身份</h1>
     <button onclick="randomIdentity()">随机生成玩家身份以开始游戏</button> <!-- Ensured button is visible -->
     <div id="form">
         <form id="identityForm">
@@ -100,6 +121,7 @@
     </div>
     <div style="width: 100%; padding: 20px 0;">
         <button type="button" class="submit" onclick="submitIdentities()" disabled>确认身份，游戏开始</button>
+        <button onclick="alert('更多功能,敬请期待')">更多森林进化论玩法</button>
     </div>
 <script src="./main.js"></script>
 </body>
