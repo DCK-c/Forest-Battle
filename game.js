@@ -18,7 +18,7 @@ function updateDisplay() {
       displayElements.textContent = `当前轮数: ${localStorage.getItem("roundCount")}`;
   }
 function updateHealthDisplay() {
-        const healths = getCookie("healths");
+        const healths = getStorage("healths");
         let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
         const healthList = document.getElementById('healthList');
         healthList.innerHTML = ''; // 清空当前显示
@@ -28,10 +28,10 @@ function updateHealthDisplay() {
           healthList.appendChild(playerDiv);
         });
       }
-function setCookie(name, value, days) {
+function setStorage(name, value) {
     localStorage.setItem(name, value);
 }
-function getCookie(name) {
+function getStorage(name) {
     return localStorage.getItem(name)
 }
 function setRoundCount(value) {
@@ -50,7 +50,7 @@ function doTrade(){
     let sell = document.getElementById("sell").value;
     let buy = document.getElementById("buy").value;
     let health = document.getElementById("health").value;
-    const healths = getCookie('healths');
+    const healths = getStorage('healths');
     let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
     if(health<=0){
         alert("参数非法");
@@ -62,7 +62,7 @@ function doTrade(){
           healthsArray[sell - 1] -= health;
           healthsArray[buy - 1] = (+healthsArray[buy - 1] + +health);
           if(+healthsArray[sell - 1]===0) alert("玩家" + (sell) + "血量不足，已被淘汰");
-          setCookie('healths', JSON.stringify(healthsArray), 7); // 存储7天
+          setStorage('healths', JSON.stringify(healthsArray));
           updateHealthDisplay();
           alert("交易成功");
         } else {
@@ -89,8 +89,8 @@ function showPredation() {
 function doPredation(){
     let predator = document.getElementById("predator").value;
     let prey = document.getElementById("prey").value;
-    const identities = getCookie('identities');
-    const healths = getCookie("healths")
+    const identities = getStorage('identities');
+    const healths = getStorage("healths")
 
     let identitiesArray = identities ? JSON.parse(decodeURIComponent(identities)) : [];
     let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
@@ -126,14 +126,14 @@ function doPredation(){
       }
     }
     // 更新cookie
-    setCookie('healths', JSON.stringify(healthsArray), 7);
+    setStorage('healths', JSON.stringify(healthsArray));
     updateHealthDisplay();
 }
 
 
 function startNextRound() {
     let unsafe = "";
-    const healths = getCookie("healths");
+    const healths = getStorage("healths");
     let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
     if(+localStorage.getItem("roundCount")!==5) {
         for (let i = 0; i < healthsArray.length; i++) {
@@ -143,7 +143,7 @@ function startNextRound() {
                 if (healthsArray[i] <= 0) alert("玩家" + (i + 1) + "血量不足，已被淘汰");
             }
         }
-        setCookie('healths', JSON.stringify(healthsArray), 7);
+        setStorage('healths', JSON.stringify(healthsArray));
         updateHealthDisplay()
     }
     localStorage.setItem("protection",JSON.stringify([]));
@@ -166,7 +166,7 @@ function showAuction(){
 function doAuction(){
     let buyer = document.getElementById("buyer").value;
     let health = document.getElementById("price").value;
-    const healths = getCookie('healths');
+    const healths = getStorage('healths');
     if(health<=0){
         alert("参数非法");
         return;
@@ -177,7 +177,7 @@ function doAuction(){
       if (healthsArray[buyer - 1] > health) {
           // sell项减去health
           healthsArray[buyer - 1] -= health;
-          setCookie('healths', JSON.stringify(healthsArray), 7); // 存储7天
+          setStorage('healths', JSON.stringify(healthsArray));
           alert("买入成功");
           updateHealthDisplay();
           document.querySelector(".auction").style.display = "none";
@@ -190,9 +190,9 @@ function doAuction(){
 
 function showResult() {
     const roles = {13:"♠J",23:"♠Q",33:"♠K",12:"♥J",22:"♥Q",32:"♥K",11:"♣J",21:"♣Q",31:"♣K",0:"JOKER"};
-    const healths = getCookie("healths");
+    const healths = getStorage("healths");
     let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
-    const identities = getCookie('identities');
+    const identities = getStorage('identities');
     let identitiesArray = identities ? JSON.parse(decodeURIComponent(identities)) : [];
     const healthList = document.getElementById('healthList');
     healthList.innerHTML = ''; // 清空当前显示
@@ -206,102 +206,6 @@ function showResult() {
     })
 }
 
-let timerInterval = null;
-let timeRemaining = 0;
-
-function displayTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secondsLeft = seconds % 60;
-    document.getElementById('timer-display').textContent =
-        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
-}
-
-function parseTimeInput() {
-    const timeInput = document.getElementById('timer-display').textContent.trim();
-    const parts = timeInput.split(':').map(part => parseInt(part) || 0);
-    if (parts.length === 3) {
-        return (parts[0] * 3600) + (parts[1] * 60) + parts[2];
-    }
-    return 0;
-}
-
-function startTimer() {
-    timeRemaining = parseTimeInput();
-    if (!timerInterval && timeRemaining > 0) {
-        document.getElementById('timer-display').contentEditable = "false"; // 禁止编辑
-        timerInterval = setInterval(updateTimer, 1000);
-    }
-}
-
-function updateTimer() {
-    timeRemaining--;
-    displayTime(timeRemaining);
-    if (timeRemaining <= 0) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        document.getElementById('timer-display').contentEditable = "true"; // 允许重新编辑
-    }
-}
-
-function pauseOrResumeTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        document.getElementById('timer-display').contentEditable = "true"; // 恢复编辑
-    } else if (timeRemaining > 0) {
-        document.getElementById('timer-display').contentEditable = "false"; // 禁止编辑
-        timerInterval = setInterval(updateTimer, 1000);
-    }
-}
-
-function resetTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
-    timeRemaining = 20*60;
-    displayTime(timeRemaining);
-    document.getElementById('timer-display').contentEditable = "true"; // 允许编辑
-}
-
-displayTime(20*60); // Initialize with zero
 
 
 
-//测试用函数
-function getData(){
-    const roles = {13:"♠J",23:"♠Q",33:"♠K",12:"♥J",22:"♥Q",32:"♥K",11:"♣J",21:"♣Q",31:"♣K",0:"JOKER"}
-    const identities = getCookie('identities');
-    const healths = getCookie("healths")
-
-    let identitiesArray = identities ? JSON.parse(decodeURIComponent(identities)) : [];
-    let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
-    for(let i=0;i<10;i++){
-      console.log("玩家"+(i+1)+"剩余血量："+healthsArray[i]+"，身份："+roles[identitiesArray[i]])
-    }
-    console.log("快去学技术！")
-    console.log("未响应你是我找bug的神")
-}
-function resetGame(){
-    const healths = [20,20,20,20,20,20,20,20,20,20];
-    localStorage.setItem("roundCount","1");
-    localStorage.setItem("safe",JSON.stringify([]));
-    setCookie("healths",JSON.stringify(healths),7);
-    updateDisplay();
-    updateHealthDisplay();
-    document.querySelector(".show").disabled = true;
-    document.querySelector(".start").disabled = false;
-    console.log("游戏状态已重置");
-}
-
-function alterHealth(user,health){
-    const healths = getCookie("healths")
-    let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
-    healthsArray[+user-1] = +healthsArray[+user-1]+ +health;
-    if(healthsArray[+user-1]<=0) alert(`玩家${user}血量不足，已被淘汰`);
-    setCookie("healths",JSON.stringify(healthsArray),7);
-    updateDisplay();
-    updateHealthDisplay();
-    getData();
-}

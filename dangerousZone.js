@@ -6,7 +6,7 @@ function doAlter(){
     let method = document.querySelector('input[name="choice"]:checked').value;
     let num = document.querySelector('#alterNum').value;
     let gamer = document.querySelector('#gamer').value;
-    const healths = getCookie("healths");
+    const healths = getStorage("healths");
     let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
     if(method == 0){
         healthsArray[gamer-1]= +num + +healthsArray[gamer-1];
@@ -14,7 +14,7 @@ function doAlter(){
         healthsArray[gamer-1]= +num;
     }
     if(healthsArray[gamer-1]<=0) alert("玩家" + (gamer) + "血量不足，已被淘汰")
-    setCookie('healths', JSON.stringify(healthsArray), 7);
+    setStorage('healths', JSON.stringify(healthsArray));
     alert("更新血量完成");
     const now = new Date();
     const hours = now.getHours();
@@ -27,7 +27,7 @@ function doAlter(){
 }
 function checkIdentity(){
     let user = document.querySelector("#checkIdentity").value;
-    let identities = JSON.parse(decodeURIComponent(getCookie("identities")));
+    let identities = JSON.parse(decodeURIComponent(getStorage("identities")));
     let roles = {13:"♠J",23:"♠Q",33:"♠K",12:"♥J",22:"♥Q",32:"♥K",11:"♣J",21:"♣Q",31:"♣K",0:"JOKER"};
     alert(`玩家${user}身份：${roles[identities[+user -1]]}`);
     const now = new Date();
@@ -41,7 +41,7 @@ function checkIdentity(){
 }
 function checkHealth(){
     let user = document.querySelector("#checkHealth").value;
-    const healths = getCookie("healths");
+    const healths = getStorage("healths");
     let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
     alert(`玩家${user}剩余血量：${healthsArray[+user -1]}`);
     const now = new Date();

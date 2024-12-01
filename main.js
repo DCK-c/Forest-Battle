@@ -1,13 +1,4 @@
 window.identities = [];
-// function alert(value){
-//     var popup = document.querySelector('.popup-content');
-//     var close = document.getElementsByClassName('close')[0];
-//     popup.style.display = "block";
-//     popup.innerText = value;
-//     close.onclick = function() {
-//         popup.style.display = "none";
-//     };
-// }
 
 function confirmIdentity(index) {
   const select = document.getElementById(`select${index}`);
@@ -109,14 +100,6 @@ function randomIdentity(){
       button.style.background = "#ff9900";
       button.style.color = "#0056ff"
       button.disabled = false;
-  // localStorage.setItem("identities",encodeURIComponent(JSON.stringify(roles)))
-  // const healths = roles.map(() => 20);
-  // storeHealthsInCookie(healths);
-  // alert("游戏开始！");
-  // localStorage.setItem("roundCount",1);
-  // localStorage.setItem("safe",JSON.stringify([]));
-  // localStorage.setItem("protection",JSON.stringify([]));
-  // window.location = "./game.html"
 }
 
 function checkClick(role){
