@@ -212,7 +212,7 @@
             <button onclick="resetTimer()">重置时间</button>
         </div>
     <h1 style="color: #ff0000">敏感操作区</h1>
-        <button onclick="showAlterZone()" class="tradeButton">调整血量</button>
+        <button onclick="showAlterZone()" class="alterButton">调整血量</button>
         <div class="alter" style="display: none;">
         <div class = "alterGamer">
             <p>待调整的玩家：</p>
@@ -242,9 +242,39 @@
             <input type="number" id="alterNum" name="alterHealth" style="height: 20px">
 
         </div>
-        <div class = "operation">
+        <div class = "doAlter">
             <button onclick="doAlter()" style="width: 80%">进行调整</button>
         </div>
+        </div>
+        <div style="display: flex;align-items: center;" class="checkIdentity">
+            <select id='checkIdentity'>
+                <option value=1>1号</option>
+                <option value=2>2号</option>
+                <option value=3>3号</option>
+                <option value=4>4号</option>
+                <option value=5>5号</option>
+                <option value=6>6号</option>
+                <option value=7>7号</option>
+                <option value=8>8号</option>
+                <option value=9>9号</option>
+                <option value=10>10号</option>
+            </select>
+            <button onclick="checkIdentity()" style="margin-left: 10px;">查看该玩家身份</button>
+        </div>
+        <div style="display: flex;align-items: center;" class="checkHealth">
+            <select id='checkHealth'>
+                <option value=1>1号</option>
+                <option value=2>2号</option>
+                <option value=3>3号</option>
+                <option value=4>4号</option>
+                <option value=5>5号</option>
+                <option value=6>6号</option>
+                <option value=7>7号</option>
+                <option value=8>8号</option>
+                <option value=9>9号</option>
+                <option value=10>10号</option>
+            </select>
+            <button onclick="checkHealth()" style="margin-left: 10px;">查看该玩家血量</button>
         </div>
     </div>
     <script src="./game.js"></script>

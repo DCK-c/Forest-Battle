@@ -25,3 +25,31 @@ function doAlter(){
     localStorage.setItem("log",log);
     document.querySelector("#logInfo").innerHTML=log;
 }
+function checkIdentity(){
+    let user = document.querySelector("#checkIdentity").value;
+    let identities = JSON.parse(decodeURIComponent(getCookie("identities")));
+    let roles = {13:"♠J",23:"♠Q",33:"♠K",12:"♥J",22:"♥Q",32:"♥K",11:"♣J",21:"♣Q",31:"♣K",0:"JOKER"};
+    alert(`玩家${user}身份：${roles[identities[+user -1]]}`);
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    let log = localStorage.getItem("log");
+    log+=`<p>时间：${hours}:${minutes}:${seconds}；操作：查看身份；查看了玩家${user}的身份</p>`
+    localStorage.setItem("log",log);
+    document.querySelector("#logInfo").innerHTML=log;
+}
+function checkHealth(){
+    let user = document.querySelector("#checkHealth").value;
+    const healths = getCookie("healths");
+    let healthsArray = healths ? JSON.parse(decodeURIComponent(healths)) : [];
+    alert(`玩家${user}剩余血量：${healthsArray[+user -1]}`);
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    let log = localStorage.getItem("log");
+    log+=`<p>时间：${hours}:${minutes}:${seconds}；操作：查看血量；查看了玩家${user}的剩余血量</p>`
+    localStorage.setItem("log",log);
+    document.querySelector("#logInfo").innerHTML=log;
+}
