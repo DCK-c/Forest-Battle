@@ -60,7 +60,7 @@
     margin: 10px 0 5px;
     color: #666;
   }
-  .info {
+  .log {
     width: calc(100% - 40px);
     font-size: 14px;
     color: #444;
@@ -90,12 +90,9 @@
     <div id="leftColumn">
         <h2>玩家存活信息</h2>
         <div id="healthList"></div>
-        <div class="info">
-            <h1 style="color: red">说明</h1>
-            <p>本系统仅用于辅助森林进化论游戏的进行，请按照森林进化论游戏的规则进行游戏</p>
-            <p>本系统不支持任何透支血量的操作</p>
-            <p>禁止利用本系统不完善的地方卡bug</p>
-            <p>在使用本系统过程中出现的一切问题请找该系统的设计者，与本系统开发者毫无关系</p>
+        <div class="log">
+            <h1 style="color: red">操作日志</h1>
+            <div id="logInfo"></div>
         </div>
     </div>
     <div id="rightColumn">
@@ -214,7 +211,43 @@
             <button onclick="pauseOrResumeTimer()">暂停/恢复计时</button>
             <button onclick="resetTimer()">重置时间</button>
         </div>
+    <h1 style="color: #ff0000">敏感操作区</h1>
+        <button onclick="showAlterZone()" class="tradeButton">调整血量</button>
+        <div class="alter" style="display: none;">
+        <div class = "alterGamer">
+            <p>待调整的玩家：</p>
+            <select id="gamer" style="height: 20px">
+                <option value=1>1号</option>
+                <option value=2>2号</option>
+                <option value=3>3号</option>
+                <option value=4>4号</option>
+                <option value=5>5号</option>
+                <option value=6>6号</option>
+                <option value=7>7号</option>
+                <option value=8>8号</option>
+                <option value=9>9号</option>
+                <option value=10>10号</option>
+            </select>
+            </div>
+        <div class = "alterNum">
+            <form>
+              <label>
+                <input type="radio" name="choice" value="0" checked> 增加/减少血量
+              </label>
+              <label>
+                <input type="radio" name="choice" value="1"> 改变血量至特定值
+              </label>
+            </form>
+            <p>调整血量数：</p>
+            <input type="number" id="alterNum" name="alterHealth" style="height: 20px">
+
+        </div>
+        <div class = "operation">
+            <button onclick="doAlter()" style="width: 80%">进行调整</button>
+        </div>
+        </div>
     </div>
     <script src="./game.js"></script>
+    <script src="dangerousZone.js"></script>
 </body>
 </html>

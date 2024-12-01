@@ -66,7 +66,8 @@ function submitIdentities() {
       identities.push(confirmedIdentity.innerText);
     }
   }
-  localStorage.setItem("identities",encodeURIComponent(JSON.stringify(identities)))
+  localStorage.setItem("identities",encodeURIComponent(JSON.stringify(identities)));
+  localStorage.setItem("log","")
   const healths = identities.map(() => 20);
   storeHealthsInCookie(healths);
   alert("游戏开始！");

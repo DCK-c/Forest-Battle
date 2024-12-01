@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
       updateDisplay();
       updateHealthDisplay();
+      document.querySelector("#logInfo").innerHTML=localStorage.getItem("log");
 });
 
 
