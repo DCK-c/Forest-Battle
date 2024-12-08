@@ -35,22 +35,9 @@
     color: #333;
     padding-bottom: 5px;
   }
-  button {
-    padding: 10px 15px;
-    margin: 5px 0;
-    width: 100%;
-    border: none;
-    background-color: rgba(255, 191, 0, 0.89);
-    color: black;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  button:hover {
-    background-color: rgb(255, 221, 0);
-  }
+
   select, input[type=number] {
-    width: 100%;
+    width: 60%;
     margin-top: 5px;
     box-sizing: border-box;
     border: 1px solid #ccc;
@@ -69,6 +56,9 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
   #timer-display {
     font-size: 48px;
@@ -85,6 +75,7 @@
     margin-top: 10px;
   }
 </style>
+<link rel="stylesheet" href="./button.css">
 </head>
 <body>
     <div id="leftColumn">
@@ -96,10 +87,10 @@
         </div>
     </div>
     <div id="rightColumn">
-        <h2>游戏操作面板</h2>
-        <h3 class="roundCount"></h3>
-        <button onclick="showTradeHealth()" class="tradeButton">血量交易</button>
-        <div class="trade" style="display: none;">
+        <h1>游戏操作面板</h1>
+        <h2 class="roundCount"></h2>
+        <button onclick="showTradeHealth()" id="tradeButton" class="operationZone">血量交易</button>
+        <div class="trade" style="display: none; background: rgb(216, 216, 216);">
         <div class = "operation">
             <p>卖家（被扣除血量）：</p>
             <select id="sell" style="height: 20px">
@@ -136,10 +127,10 @@
 
         </div>
         <div class = "operation">
-            <button onclick="doTrade()" style="width: 80%">完成交易</button>
+            <button onclick="doTrade()" style="width: 80%" class="doOperation">完成交易</button>
         </div>
         </div>
-    <button onclick="showPredation()" class="predationButton">捕食</button>
+    <button onclick="showPredation()" id="predationButton" class="operationZone">捕食</button>
       <div class = "predation" style="display: none;background: #d8d8d8">
           <div class = "operation">
               <p>捕食者：</p>
@@ -172,11 +163,10 @@
             </select>
           </div>
           <div class = "operation">
-              <button onclick="doPredation()" style="width: 80%">进行捕食</button>
+              <button onclick="doPredation()" style="width: 80%" class="doOperation">进行捕食</button>
           </div>
       </div>
-    <button onclick="startNextRound()" class = "start">结束这一轮并开始下一轮</button>
-    <button onclick="showAuction()" class = "auctionButton" >拍卖环节</button>
+    <button onclick="showAuction()" id = "auctionButton" class="operationZone">拍卖环节</button>
       <div class = "auction" style="display: none;background: #d8d8d8">
           <div class = "operation">
               <p>购得者：</p>
@@ -199,22 +189,22 @@
 
         </div>
           <div class = "operation">
-              <button onclick="doAuction()" style="width: 80%">成交</button>
+              <button onclick="doAuction()" style="width: 80%" class="doOperation">成交</button>
           </div>
       </div>
-    <button onclick="showResult()" class = "show">显示结果(仅可在最后一轮显示)</button>
-    <button onclick="{window.location = './main.html'}">返回设置身份</button>
-    <h2 style="color: #0000ff">计时器（可以用来进行一些奇怪的事情）</h2>
+    <button onclick="startNextRound()" id = "start" class="roundOperation">结束这一轮并开始下一轮</button>
+    <button onclick="showResult()" id = "show" class="roundOperation">显示结果(仅可在最后一轮显示)</button>
+    <button onclick="{window.location = './main.html'}" class="roundOperation">返回设置身份</button>
+    <h1 style="color: #0000ff">计时器（可以用来进行一些奇怪的事情）</h1>
         <div>
             <div id="timer-display" contenteditable="true">00:00:00</div>
-            <button onclick="startTimer()">开始计时</button>
-            <button onclick="pauseOrResumeTimer()">暂停/恢复计时</button>
-            <button onclick="resetTimer()">重置时间</button>
+            <button onclick="pauseOrResumeTimer()" class="timerZone">开始/暂停计时</button>
+            <button onclick="resetTimer()" class="timerZone">重置时间</button>
         </div>
     <h1 style="color: #ff0000">敏感操作区</h1>
-        <button onclick="showAlterZone()" class="alterButton">调整血量</button>
-        <div class="alter" style="display: none;">
-        <div class = "alterGamer">
+        <button onclick="showAlterZone()" class="dangerousZone">调整血量</button>
+        <div class="alter" style="display: none; background: rgb(216, 216, 216); padding: 15px; border-radius: 5px" >
+        <div class = "operation">
             <p>待调整的玩家：</p>
             <select id="gamer" style="height: 20px">
                 <option value=1>1号</option>
@@ -229,7 +219,7 @@
                 <option value=10>10号</option>
             </select>
             </div>
-        <div class = "alterNum">
+        <div class = "operation" >
             <form>
               <label>
                 <input type="radio" name="choice" value="0" checked> 增加/减少血量
@@ -242,8 +232,8 @@
             <input type="number" id="alterNum" name="alterHealth" style="height: 20px">
 
         </div>
-        <div class = "doAlter">
-            <button onclick="doAlter()" style="width: 80%">进行调整</button>
+        <div class = "operation">
+            <button onclick="doAlter()" style="width: 80%" class="doOperation">进行调整</button>
         </div>
         </div>
         <div style="display: flex;align-items: center;" class="checkIdentity">
@@ -259,7 +249,7 @@
                 <option value=9>9号</option>
                 <option value=10>10号</option>
             </select>
-            <button onclick="checkIdentity()" style="margin-left: 10px;">查看该玩家身份</button>
+            <button onclick="checkIdentity()" style="margin-left: 10px;" class="dangerousZone">查看该玩家身份</button>
         </div>
         <div style="display: flex;align-items: center;" class="checkHealth">
             <select id='checkHealth'>
@@ -274,7 +264,7 @@
                 <option value=9>9号</option>
                 <option value=10>10号</option>
             </select>
-            <button onclick="checkHealth()" style="margin-left: 10px;">查看该玩家血量</button>
+            <button onclick="checkHealth()" style="margin-left: 10px;" class="dangerousZone">查看该玩家血量</button>
         </div>
     </div>
     <script src="./game.js"></script>

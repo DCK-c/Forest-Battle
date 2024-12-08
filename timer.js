@@ -19,7 +19,7 @@ function parseTimeInput() {
 }
 
 function startTimer() {
-    timeRemaining = parseTimeInput();
+
     if (!timerInterval && timeRemaining > 0) {
         document.getElementById('timer-display').contentEditable = "false"; // 禁止编辑
         timerInterval = setInterval(updateTimer, 1000);
@@ -37,6 +37,7 @@ function updateTimer() {
 }
 
 function pauseOrResumeTimer() {
+    timeRemaining = parseTimeInput();
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;

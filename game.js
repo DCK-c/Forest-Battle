@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
 
       if(+localStorage.getItem("roundCount") === 5) {
-          document.querySelector(".show").disabled = false;
-          document.querySelector(".start").disabled = true;
+          document.querySelector("#show").disabled = false;
+          document.querySelector("#start").disabled = true;
       }else{
-          document.querySelector(".show").disabled = true;
-          document.querySelector(".start").disabled = false;
+          document.querySelector("#show").disabled = true;
+          document.querySelector("#start").disabled = false;
       }
       updateDisplay();
       updateHealthDisplay();
@@ -24,7 +24,9 @@ function updateHealthDisplay() {
         healthList.innerHTML = ''; // 清空当前显示
         healthsArray.forEach((health, index) => {
           const playerDiv = document.createElement('div');
-          playerDiv.textContent = `玩家${index + 1} 身份:未知;状态:${health<=0?"淘汰":"存活"}`;
+          playerDiv.style.display="flex"
+          playerDiv.innerHTML = `<p>玩家${index + 1} 身份:未知; 状态: ${health<=0?"<p style='color: red'>淘汰</p>":"存活"}</p>`;
+          playerDiv.style.color = index%2===0? '#000000':'#0000ff'
           healthList.appendChild(playerDiv);
         });
       }
@@ -149,11 +151,11 @@ function startNextRound() {
     localStorage.setItem("protection",JSON.stringify([]));
     setRoundCount(+localStorage.getItem("roundCount") <=4? +localStorage.getItem("roundCount") + 1:+localStorage.getItem("roundCount"));
     if(+localStorage.getItem("roundCount") ===5){
-        document.querySelector(".show").disabled = false;
-        document.querySelector(".start").disabled = true;
+        document.querySelector("#show").disabled = false;
+        document.querySelector("#start").disabled = true;
     }
     localStorage.setItem("safe",JSON.stringify([]))
-    document.querySelector(".auctionButton").disabled = false
+    document.querySelector("#auctionButton").disabled = false
     alert("玩家"+unsafe.slice(0,-1)+"本轮未参与捕食，已被扣除对应血量。")
 }
 
@@ -181,7 +183,7 @@ function doAuction(){
           alert("买入成功");
           updateHealthDisplay();
           document.querySelector(".auction").style.display = "none";
-          document.querySelector(".auctionButton").disabled = true;
+          document.querySelector("#auctionButton").disabled = true;
       } else {
           alert("买入失败，买家血量不足");
       }
@@ -196,12 +198,17 @@ function showResult() {
     let identitiesArray = identities ? JSON.parse(decodeURIComponent(identities)) : [];
     const healthList = document.getElementById('healthList');
     healthList.innerHTML = ''; // 清空当前显示
-    document.querySelector(".tradeButton").disabled = true;
-    document.querySelector(".predationButton").disabled = true;
-    document.querySelector(".auctionButton").disabled = true;
+    document.querySelector("#tradeButton").disabled = true;
+    document.querySelector("#predationButton").disabled = true;
+    document.querySelector("#auctionButton").disabled = true;
+    document.querySelector(".trade").style.display = "none";
+    document.querySelector(".predation").style.display = "none";
+    document.querySelector(".auction").style.display = "none";
     healthsArray.forEach((health, index) => {
         const playerDiv = document.createElement('div');
-        playerDiv.textContent = `玩家${index + 1} 身份:${roles[identitiesArray[index]]};剩余血量:${health}`;
+        playerDiv.style.display="flex"
+        playerDiv.innerHTML = `<p>玩家${index + 1} 身份: <p style="color:#ff7043;">${roles[identitiesArray[index]]}</p><p>; 剩余血量: </p><p style="color: ${health<0?'#ff0000':'rgba(0,171,10,0.5)'}">${health}</p></p>`;
+        playerDiv.style.color = index%2===0? '#000000':'#0000ff'
         healthList.appendChild(playerDiv);
     })
 }

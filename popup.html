@@ -1,47 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Popup Example</title>
-<style>
-    /* style.css */
+<div class="button-wrapper" data-tippy-content="Click to copy button 66">
+            <button class="button-66" role="button">Button 66</button>
+          </div>
+          <style>
 
-.popup-content {
-    position: absolute; /* 使用绝对定位 */
-    top: 15%; /* 距离顶部20% */
-    left: 40%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 200px;
-    height:100px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+            .button-66 {
+              background-color: #0a6bff;
+              border-radius: 4px;
+              border: 0;
+              box-shadow: rgba(1,60,136,.5) 0 -1px 3px 0 inset,rgba(0,44,97,.1) 0 3px 6px 0;
+              box-sizing: border-box;
+              color: #fff;
+              cursor: pointer;
+              display: inherit;
+              font-family: "Space Grotesk",-apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+              font-size: 18px;
+              font-weight: 700;
+              line-height: 24px;
+              margin: 0;
+              min-height: 56px;
+              min-width: 120px;
+              padding: 16px 20px;
+              position: relative;
+              text-align: center;
+              user-select: none;
+              -webkit-user-select: none;
+              touch-action: manipulation;
+              vertical-align: baseline;
+              transition: all .2s cubic-bezier(.22, .61, .36, 1);
+            }
 
-.close {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
+            .button-66:hover {
+              background-color: #065dd8;
+              transform: translateY(-2px);
+            }
 
-</style>
-</head>
-<body>
-    <div class="popup-content" style="display: none">
-        <span class="close">&times;</span>
-        111111
-    </div>
+            @media (min-width: 768px) {
+              .button-66 {
+                padding: 16px 44px;
+                min-width: 150px;
+              }
+            }
 
-<script>// script.js
-document.addEventListener('DOMContentLoaded', function () {
-    var popup = document.querySelector('.popup-content');
-    var close = document.getElementsByClassName('close')[0];
-    popup.style.display = "block";
-    close.onclick = function() {
-        popup.style.display = "none";
-    };
-});
-</script>
-</body>
-</html>
+          </style>
